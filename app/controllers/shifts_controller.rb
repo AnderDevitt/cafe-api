@@ -10,7 +10,11 @@ class ShiftsController < ApplicationController
 
   # GET /shifts/1
   def show
-    render json: @shift
+    if @shift
+      render json: @shift
+    else
+      render json: {"Error": "Shift data not found: wrong id"}, status: :not_found
+    end
   end
 
   # POST /shifts
@@ -18,7 +22,7 @@ class ShiftsController < ApplicationController
     @shift = Shift.new(shift_params)
 
     if @shift.save
-      render json: @shift, status: :created, location: @shift
+      render json: @shift, status: :created #, location: @shift
     else
       render json: @shift.errors, status: :unprocessable_entity
     end
@@ -41,7 +45,7 @@ class ShiftsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_shift
-      @shift = Shift.find(params[:id])
+      @shift = Shift.find_by_id(params[:id])
     end
 
     # Only allow a list of trusted parameters through.
