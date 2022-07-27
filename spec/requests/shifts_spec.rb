@@ -13,6 +13,54 @@ require 'rails_helper'
 # sticking to rails and rspec-rails APIs to keep things simple and stable.
 
 RSpec.describe "/shifts", type: :request do
+  # create 2 sample shifts for tests
+  before(:each) do
+    FactoryBot.create(:shift, date: "2022-07-27", start: "2000-01-01T06:30:00.000Z", finish: "2000-01-01T12:30:00.000Z")
+    FactoryBot.create(:shift, date: "2022-07-28", start: "2000-01-01T09:30:00.000Z", finish: "2000-01-01T14:30:00.000Z")
+  end  
+
+  # test all shifts return with http request
+  describe "get all shifts at /shifts" do
+    it "returns all shifts" do
+      get "/shifts"
+      # check for success
+      expect(response).to have_http_status(:success)
+      # check the correct amount return
+      expect(JSON.parse(response.body).size).to eq(2)
+    end
+  end
+
+  # test finding a shift by param
+  describe "get shift at /shifts/:id" do
+    it "returns a shift based on the parameter" do
+      get "/shifts/3"
+      # check for success
+      expect(response).to have_http_status(:success)
+      # check for contents
+      expect(response.body).to include("2022-07-27")
+      # check the correct amount return
+      # expect(JSON.parse(response.body).size).to eq(2)
+    end
+
+    # test searching a shift with invalid param
+    it "returns not found based on the wrong parameter" do
+      get "/shifts/40"
+      # check for success
+      expect(response).to have_http_status(:not_found)
+      # check response content
+      expect(response.body).to include("Shift data not found: wrong id")
+    end
+  end
+
+
+
+
+
+
+
+
+
+
   # This should return the minimal set of attributes required to create a valid
   # Shift. As you add validations to Shift, be sure to
   # adjust the attributes here as well.
@@ -32,96 +80,96 @@ RSpec.describe "/shifts", type: :request do
     {}
   }
 
-  describe "GET /index" do
-    it "renders a successful response" do
-      Shift.create! valid_attributes
-      get shifts_url, headers: valid_headers, as: :json
-      expect(response).to be_successful
-    end
-  end
+  # describe "GET /index" do
+  #   it "renders a successful response" do
+  #     Shift.create! valid_attributes
+  #     get shifts_url, headers: valid_headers, as: :json
+  #     expect(response).to be_successful
+  #   end
+  # end
 
-  describe "GET /show" do
-    it "renders a successful response" do
-      shift = Shift.create! valid_attributes
-      get shift_url(shift), as: :json
-      expect(response).to be_successful
-    end
-  end
+  # describe "GET /show" do
+  #   it "renders a successful response" do
+  #     shift = Shift.create! valid_attributes
+  #     get shift_url(shift), as: :json
+  #     expect(response).to be_successful
+  #   end
+  # end
 
-  describe "POST /create" do
-    context "with valid parameters" do
-      it "creates a new Shift" do
-        expect {
-          post shifts_url,
-               params: { shift: valid_attributes }, headers: valid_headers, as: :json
-        }.to change(Shift, :count).by(1)
-      end
+  # describe "POST /create" do
+  #   context "with valid parameters" do
+  #     it "creates a new Shift" do
+  #       expect {
+  #         post shifts_url,
+  #              params: { shift: valid_attributes }, headers: valid_headers, as: :json
+  #       }.to change(Shift, :count).by(1)
+  #     end
 
-      it "renders a JSON response with the new shift" do
-        post shifts_url,
-             params: { shift: valid_attributes }, headers: valid_headers, as: :json
-        expect(response).to have_http_status(:created)
-        expect(response.content_type).to match(a_string_including("application/json"))
-      end
-    end
+  #     it "renders a JSON response with the new shift" do
+  #       post shifts_url,
+  #            params: { shift: valid_attributes }, headers: valid_headers, as: :json
+  #       expect(response).to have_http_status(:created)
+  #       expect(response.content_type).to match(a_string_including("application/json"))
+  #     end
+  #   end
 
-    context "with invalid parameters" do
-      it "does not create a new Shift" do
-        expect {
-          post shifts_url,
-               params: { shift: invalid_attributes }, as: :json
-        }.to change(Shift, :count).by(0)
-      end
+  #   context "with invalid parameters" do
+  #     it "does not create a new Shift" do
+  #       expect {
+  #         post shifts_url,
+  #              params: { shift: invalid_attributes }, as: :json
+  #       }.to change(Shift, :count).by(0)
+  #     end
 
-      it "renders a JSON response with errors for the new shift" do
-        post shifts_url,
-             params: { shift: invalid_attributes }, headers: valid_headers, as: :json
-        expect(response).to have_http_status(:unprocessable_entity)
-        expect(response.content_type).to match(a_string_including("application/json"))
-      end
-    end
-  end
+  #     it "renders a JSON response with errors for the new shift" do
+  #       post shifts_url,
+  #            params: { shift: invalid_attributes }, headers: valid_headers, as: :json
+  #       expect(response).to have_http_status(:unprocessable_entity)
+  #       expect(response.content_type).to match(a_string_including("application/json"))
+  #     end
+  #   end
+  # end
 
-  describe "PATCH /update" do
-    context "with valid parameters" do
-      let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
-      }
+  # describe "PATCH /update" do
+  #   context "with valid parameters" do
+  #     let(:new_attributes) {
+  #       skip("Add a hash of attributes valid for your model")
+  #     }
 
-      it "updates the requested shift" do
-        shift = Shift.create! valid_attributes
-        patch shift_url(shift),
-              params: { shift: new_attributes }, headers: valid_headers, as: :json
-        shift.reload
-        skip("Add assertions for updated state")
-      end
+  #     it "updates the requested shift" do
+  #       shift = Shift.create! valid_attributes
+  #       patch shift_url(shift),
+  #             params: { shift: new_attributes }, headers: valid_headers, as: :json
+  #       shift.reload
+  #       skip("Add assertions for updated state")
+  #     end
 
-      it "renders a JSON response with the shift" do
-        shift = Shift.create! valid_attributes
-        patch shift_url(shift),
-              params: { shift: new_attributes }, headers: valid_headers, as: :json
-        expect(response).to have_http_status(:ok)
-        expect(response.content_type).to match(a_string_including("application/json"))
-      end
-    end
+  #     it "renders a JSON response with the shift" do
+  #       shift = Shift.create! valid_attributes
+  #       patch shift_url(shift),
+  #             params: { shift: new_attributes }, headers: valid_headers, as: :json
+  #       expect(response).to have_http_status(:ok)
+  #       expect(response.content_type).to match(a_string_including("application/json"))
+  #     end
+  #   end
 
-    context "with invalid parameters" do
-      it "renders a JSON response with errors for the shift" do
-        shift = Shift.create! valid_attributes
-        patch shift_url(shift),
-              params: { shift: invalid_attributes }, headers: valid_headers, as: :json
-        expect(response).to have_http_status(:unprocessable_entity)
-        expect(response.content_type).to match(a_string_including("application/json"))
-      end
-    end
-  end
+  #   context "with invalid parameters" do
+  #     it "renders a JSON response with errors for the shift" do
+  #       shift = Shift.create! valid_attributes
+  #       patch shift_url(shift),
+  #             params: { shift: invalid_attributes }, headers: valid_headers, as: :json
+  #       expect(response).to have_http_status(:unprocessable_entity)
+  #       expect(response.content_type).to match(a_string_including("application/json"))
+  #     end
+  #   end
+  # end
 
-  describe "DELETE /destroy" do
-    it "destroys the requested shift" do
-      shift = Shift.create! valid_attributes
-      expect {
-        delete shift_url(shift), headers: valid_headers, as: :json
-      }.to change(Shift, :count).by(-1)
-    end
-  end
+  # describe "DELETE /destroy" do
+  #   it "destroys the requested shift" do
+  #     shift = Shift.create! valid_attributes
+  #     expect {
+  #       delete shift_url(shift), headers: valid_headers, as: :json
+  #     }.to change(Shift, :count).by(-1)
+  #   end
+  # end
 end
