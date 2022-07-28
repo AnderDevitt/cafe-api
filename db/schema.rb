@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_07_28_041814) do
+ActiveRecord::Schema.define(version: 2022_07_28_125836) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -40,6 +40,8 @@ ActiveRecord::Schema.define(version: 2022_07_28_041814) do
     t.time "finish"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "employee_id", null: false
+    t.index ["employee_id"], name: "index_shifts_on_employee_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -53,4 +55,5 @@ ActiveRecord::Schema.define(version: 2022_07_28_041814) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  add_foreign_key "shifts", "employees"
 end
