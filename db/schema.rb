@@ -10,10 +10,29 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_07_27_033202) do
+ActiveRecord::Schema.define(version: 2022_07_28_125836) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "employees", force: :cascade do |t|
+    t.string "first_name"
+    t.string "last_name"
+    t.string "username"
+    t.boolean "is_active"
+    t.string "password_digest"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "roles", force: :cascade do |t|
+    t.string "username"
+    t.string "email"
+    t.boolean "is_admin"
+    t.string "password_digest"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
 
   create_table "shifts", force: :cascade do |t|
     t.date "date"
@@ -21,6 +40,20 @@ ActiveRecord::Schema.define(version: 2022_07_27_033202) do
     t.time "finish"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "employee_id", null: false
+    t.index ["employee_id"], name: "index_shifts_on_employee_id"
   end
 
+  create_table "users", force: :cascade do |t|
+    t.string "first_name"
+    t.string "last_name"
+    t.string "username"
+    t.integer "pin"
+    t.boolean "is_active"
+    t.boolean "is_admin"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  add_foreign_key "shifts", "employees"
 end
