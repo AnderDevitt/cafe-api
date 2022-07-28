@@ -3,14 +3,19 @@ class UsersController < ApplicationController
 
   # GET /users
   def index
-    @users = User.all
+    # @users = User.all
+    # order users alphabetically
+    @users = User.order("first_name")
 
     render json: @users
   end
 
   # GET /users/1
   def show
-    render json: @user
+    if @user
+      render json: @user
+    else
+      render json: {"Error": "User not found, wrong id"}, status: :not_found
   end
 
   # POST /users

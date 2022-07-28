@@ -1,12 +1,11 @@
-class CreateUsers < ActiveRecord::Migration[6.1]
+class CreateEmployees < ActiveRecord::Migration[6.1]
   def change
-    create_table :users do |t|
+    create_table :employees do |t|
       t.string :first_name
       t.string :last_name
       t.string :username
-      t.integer :pin
       t.boolean :is_active
-      t.boolean :is_admin
+      t.string :password_digest
 
       t.timestamps
     end
