@@ -19,7 +19,7 @@ ActiveRecord::Schema.define(version: 2022_07_28_125836) do
     t.string "first_name"
     t.string "last_name"
     t.string "username"
-    t.boolean "is_active"
+    t.string "is_active"
     t.string "password_digest"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -28,7 +28,7 @@ ActiveRecord::Schema.define(version: 2022_07_28_125836) do
   create_table "roles", force: :cascade do |t|
     t.string "username"
     t.string "email"
-    t.boolean "is_admin"
+    t.string "is_admin"
     t.string "password_digest"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

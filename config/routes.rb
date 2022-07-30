@@ -9,6 +9,7 @@ Rails.application.routes.draw do
     post "/signin", to: "roles#sign_in"
   end
 
+  get "/employees", to: "employees#index"
   post "/staff_new", to: "employees#create"
   post "/staff_login", to: "employees#login"
   

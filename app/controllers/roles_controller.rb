@@ -6,8 +6,9 @@ class RolesController < ApplicationController
         if @role.errors.any?
             render json: @role.errors, status: :unprocessable_entity
         else
-            auth_token = Knock::AuthToken.new payload: {sub: @role.id}
-            render json: {username: @role.username, jwt: auth_token.token}, status: :created
+            # auth_token = Knock::AuthToken.new payload: {sub: @role.id}
+            # render json: {username: @role.username, jwt: auth_token.token}, status: :created
+            render json: {username: @role.username}, status: :created
         end
     end
 

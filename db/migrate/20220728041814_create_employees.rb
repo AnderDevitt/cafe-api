@@ -4,7 +4,7 @@ class CreateEmployees < ActiveRecord::Migration[6.1]
       t.string :first_name
       t.string :last_name
       t.string :username
-      t.boolean :is_active
+      t.string :is_active
       t.string :password_digest
 
       t.timestamps
