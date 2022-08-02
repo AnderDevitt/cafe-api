@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_07_28_125836) do
+ActiveRecord::Schema.define(version: 2022_08_02_084125) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -35,12 +35,13 @@ ActiveRecord::Schema.define(version: 2022_07_28_125836) do
   end
 
   create_table "shifts", force: :cascade do |t|
-    t.date "date"
-    t.time "start"
-    t.time "finish"
+    t.string "date"
+    t.string "start"
+    t.string "finish"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "employee_id", null: false
+    t.boolean "clocked_out"
     t.index ["employee_id"], name: "index_shifts_on_employee_id"
   end
 
