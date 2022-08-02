@@ -1,5 +1,5 @@
 class ShiftsController < ApplicationController
-  before_action :authenticate_employee, except: [:index, :show]
+  # before_action :authenticate_employee, except: [:index, :show]
   before_action :set_shift, only: [:show, :update, :destroy]
   before_action :check_ownership, only: [:update, :destroy]
 
@@ -7,10 +7,14 @@ class ShiftsController < ApplicationController
   def index
     # @shifts = Shift.all
     @shifts = []
-    Shift.order("created_at").each do |shift|
-      @shifts << shift.transform_shift
-    end
-
+    
+      # Shift.each do |shift|
+        Shift.order("created_at").each do |shift|
+        # if (shift.clocked_out === false)
+          @shifts << shift.transform_shift
+          # @shifts << shift
+        
+      end
     render json: @shifts
   end
 
@@ -23,16 +27,33 @@ class ShiftsController < ApplicationController
     end
   end
 
+  # GET /shifts/new
+  def new
+    @shift = Shift.new
+  end
+
   # POST /shifts
   def create
-    # @shift = Shift.new(shift_params)
-    @shift = current_employee.shifts.create(shift_params)
-    if @shift.save
-      render json: @shift, status: :created #, location: @shift
-    else
-      render json: @shift.errors, status: :unprocessable_entity
-    end
+    
+    # @current_employee = Employee.find_by_id(params[:employee_id])
+    #     if @current_employee && @current_employee.authenticate(params[:password])
+    #         auth_token = Knock::AuthToken.new payload: {sub: @current_employee.id}
+    #         render json: {username: @current_employee.username, jwt: auth_token.token}, status: 200
+
+            @shift = Shift.create(shift_params)
+            if @shift.save
+              render json: @shift, status: :created #, location: @shift
+            else
+              render json: @shift.errors, status: :unprocessable_entity
+            end
+        # else
+            # render json: {Error: "Invalid username or password"}
+        # end
   end
+
+  
+
+
 
   # PATCH/PUT /shifts/1
   def update
@@ -63,6 +84,6 @@ class ShiftsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def shift_params
-      params.permit(:date, :start, :finish)
+      params.permit(:date, :start, :finish, :password, :employee_id, :clocked_out)
     end
 end

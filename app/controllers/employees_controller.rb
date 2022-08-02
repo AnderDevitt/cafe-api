@@ -25,7 +25,7 @@ class EmployeesController < ApplicationController
         else
             # auth_token = Knock::AuthToken.new payload: {sub: @employee.id}
             # render json: {username: @employee.username, jwt: auth_token.token}, status: :created
-            render json: {username: @role.username}, status: :created
+            render json: {username: @employee.username}, status: :created
         end
     end
 
@@ -54,6 +54,7 @@ class EmployeesController < ApplicationController
 
     end
 
+    
     private
     # Use callbacks to share common setup or constraints between actions.
     def set_employee
@@ -62,6 +63,6 @@ class EmployeesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def employee_params
-        params.permit(:username, :first_name, :last_name, :is_active, :password, :password_confirmation)
+        params.permit(:username, :first_name, :last_name, :is_active, :password, :password_confirmation, :id)
     end
 end
