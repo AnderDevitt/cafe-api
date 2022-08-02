@@ -14,9 +14,8 @@ class RolesController < ApplicationController
 
     def sign_in
         @role = Role.find_by_username(params[:username])
-        if @role && @role.authenticate(params[:password])
-            auth_token = Knock::AuthToken.new payload: {sub: @role.id}
-            render json: {username: @role.username, jwt: auth_token.token}, status: 200
+        if @role.present? && @role.password === params[:password]
+            render json: {username: @role.username}, status: 200
         else
             render json: {Error: "Invalid username or password"}
         end
