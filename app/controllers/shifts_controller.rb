@@ -9,7 +9,8 @@ class ShiftsController < ApplicationController
     @shifts = []
     
       # Shift.each do |shift|
-        Shift.order("created_at").each do |shift|
+        # Shift.order("created_at").each do |shift|
+          Shift.where("clocked_out" === false).order("created_at").each do |shift|  
         # if (shift.clocked_out === false)
           @shifts << shift.transform_shift
           # @shifts << shift
