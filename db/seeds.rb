@@ -7,12 +7,14 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 password = BCrypt::Password.create('password')
 # Create sample shifts for DB
-# if Shift.count == 0
-#     s1 = Shift.create("date"=>"2022-07-25", "start"=>"06:30:00", "finish"=>"12:30:00", "employee_id" => "1")
-#     s2 = Shift.create("date"=>"2022-07-25", "start"=>"09:30:00", "finish"=>"14:30:00", "employee_id" => "2")
-#     s3 = Shift.create("date"=>"2022-07-27", "start"=>"06:30:00", "finish"=>"10:30:00", "employee_id" => "1")
-#     s4 = Shift.create("date"=>"2022-07-27", "start"=>"10:30:00", "finish"=>"12:30:00", "employee_id" => "2")
-# end
+if Shift.count == 0
+    s1 = Shift.create("date"=>"2022-07-25", "start"=>"06:30:00", "finish"=>"12:30:00", "employee_id" => "1")
+    s2 = Shift.create("date"=>"2022-07-25", "start"=>"09:30:00", "finish"=>"14:30:00", "employee_id" => "2")
+    s3 = Shift.create("date"=>"2022-07-27", "start"=>"06:30:00", "finish"=>"10:30:00", "employee_id" => "1")
+    s4 = Shift.create("date"=>"2022-07-27", "start"=>"10:30:00", "finish"=>"12:30:00", "employee_id" => "2")
+    s5 = Shift.create("date"=>"2022-07-27", "start"=>"06:30:00", "finish"=>"10:30:00", "employee_id" => "3")
+    s6 = Shift.create("date"=>"2022-07-27", "start"=>"10:30:00", "finish"=>"12:30:00", "employee_id" => "4")
+end
 
 # Create sample employees for DB
 if Employee.count == 0
