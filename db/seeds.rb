@@ -26,6 +26,6 @@ end
 
 # Create sample roles for DB
 if Role.count == 0
-    r1 = Role.create("username"=>"admin", "email"=>"admin@email.com", "is_admin"=>"true", "password_digest"=>password)
-    r2 = Role.create("username"=>"cafe", "email"=>"cafe@email.com", "is_admin"=>"false", "password_digest"=>password)
+    r1 = Role.create("username"=>"admin", "email"=>"admin@email.com", "is_admin"=>"true", "password"=>"admin123")
+    r2 = Role.create("username"=>"cafe", "email"=>"cafe@email.com", "is_admin"=>"false", "password"=>"cafe123")
 end
