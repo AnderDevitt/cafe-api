@@ -17,8 +17,10 @@ class RolesController < ApplicationController
         # if @role.present? && @role.password === params[:password]
         #     render json: {username: @role.username}, status: 200
         if @role && @role.authenticate(params[:password])
-            auth_token = Knock::AuthToken.new payload: {sub: @role.id}
-            render json: {username: @role.username, jwt: auth_token.token}, status: 200
+            # Not sure this is correct, https://betterprogramming.pub/knock-as-an-authentication-solution-for-rails-api-acfaef5b25
+            # auth_token = Knock::AuthToken.new payload: {sub: @role.id}
+            # render json: {username: @role.username, jwt: auth_token.token}, status: 200
+            render json: {Error: "Login successful", username: @role.username}
         else
             render json: {Error: "Invalid username or password"}
         end

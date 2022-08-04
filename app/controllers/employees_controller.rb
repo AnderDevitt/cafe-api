@@ -46,6 +46,7 @@ class EmployeesController < ApplicationController
     def login
         @employee = Employee.find_by_username(params[:username])
         if @employee && @employee.authenticate(params[:password])
+            # Not sure this is correct, https://betterprogramming.pub/knock-as-an-authentication-solution-for-rails-api-acfaef5b25
             auth_token = Knock::AuthToken.new payload: {sub: @employee.id}
             render json: {username: @employee.username, jwt: auth_token.token}, status: 200
         else
