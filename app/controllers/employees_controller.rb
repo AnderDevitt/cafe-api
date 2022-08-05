@@ -34,7 +34,7 @@ class EmployeesController < ApplicationController
         if @employee.update(employee_params)
             render json: @employee
         else
-            render json: @emplyee.errors, status: :unprocessable_entity
+            render json: @employee.errors, status: :unprocessable_entity
         end
     end
 
@@ -44,6 +44,7 @@ class EmployeesController < ApplicationController
     end
 
     def login
+        pp("Employee Login request received!")
         @employee = Employee.find_by_username(params[:username])
         if @employee && @employee.authenticate(params[:password])
             auth_token = Knock::AuthToken.new payload: {sub: @employee.id}
@@ -53,6 +54,7 @@ class EmployeesController < ApplicationController
         end
 
     end
+    
 
     
     private

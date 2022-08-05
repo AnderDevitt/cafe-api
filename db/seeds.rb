@@ -16,16 +16,14 @@ password = BCrypt::Password.create('password')
 
 # Create sample employees for DB
 if Employee.count == 0
-    e1 = Employee.create("first_name"=>"Andrew", "last_name"=>"Devitt", "username"=>"andrew d", "is_active"=>"true", "password_digest"=>password)
-    e2 = Employee.create("first_name"=>"Raj", "last_name"=>"Ranj", "username"=>"raj r", "is_active"=>"true", "password_digest"=>password)
-    e3 = Employee.create("first_name"=>"Jane", "last_name"=>"Smith", "username"=>"jane s", "is_active"=>"true", "password_digest"=>password)
-    e4 = Employee.create("first_name"=>"Bob", "last_name"=>"Green", "username"=>"bob g", "is_active"=>"true", "password_digest"=>password)
-    e5 = Employee.create("first_name"=>"Adam", "last_name"=>"Away", "username"=>"adam a", "is_active"=>"false", "password_digest"=>password)
-    e6 = Employee.create("first_name"=>"Greg", "last_name"=>"Gone", "username"=>"greg g", "is_active"=>"false", "password_digest"=>password)
+    e1 = Employee.create("first_name"=>"Andrew", "last_name"=>"Devitt", "username"=>"andrew d", "is_active"=>"true", "password"=>"1234")
+    e2 = Employee.create("first_name"=>"Raj", "last_name"=>"Ranj", "username"=>"raj r", "is_active"=>"true", "password"=>"1234")
+    e3 = Employee.create("first_name"=>"Jane", "last_name"=>"Smith", "username"=>"jane s", "is_active"=>"false", "password"=>"1234")
+    e4 = Employee.create("first_name"=>"Bob", "last_name"=>"Green", "username"=>"bob g", "is_active"=>"false", "password"=>"1234")
 end
 
 # Create sample roles for DB
 if Role.count == 0
-    r1 = Role.create("username"=>"admin", "email"=>"admin@email.com", "is_admin"=>"true", "password_digest"=>password)
-    r2 = Role.create("username"=>"cafe", "email"=>"cafe@email.com", "is_admin"=>"false", "password_digest"=>password)
+    r1 = Role.create("username"=>"admin", "email"=>"admin@email.com", "is_admin"=>"true", "password"=>"admin123")
+    r2 = Role.create("username"=>"cafe", "email"=>"cafe@email.com", "is_admin"=>"false", "password"=>"cafe123")
 end

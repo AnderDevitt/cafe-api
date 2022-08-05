@@ -5,4 +5,14 @@ class Employee < ApplicationRecord
     validates :first_name, presence: true
     validates :last_name, presence: true
     validates :is_active, presence: true
+
+    def transform_employee
+        return {
+            id: self.id,
+            first_name: self.first_name,
+            last_name: self.last_name,
+            username: self.username,
+            is_active: self.is_active,
+        }
+    end
 end

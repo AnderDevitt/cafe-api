@@ -19,6 +19,21 @@ class ShiftsController < ApplicationController
     render json: @shifts
   end
 
+  def shifts_current
+    @shifts = []
+          
+    Shifts.where("clocked_out" === false).each do |shift|  
+      @shifts << shift.transform_shift
+    end
+    if !@shifts.nil
+      pp("Current shifts found")
+      pp(@shifts)
+      render json: @shifts
+    else 
+      render json: {Error: "No staff are currently working"}
+    end
+  end
+
   # GET /shifts/1
   def show
     if @shift
