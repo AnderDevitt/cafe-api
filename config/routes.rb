@@ -18,7 +18,11 @@ Rails.application.routes.draw do
   post "/staff_login", to: "employees#login"
   resources :employees
   
+  
+  get "/shifts/employee/:username", to: "shifts#employee_shifts"
+  get "/shifts/date/:date", to: "shifts#date_shifts"
   get "/shifts", to: "shifts#index"
+  get "/shifts/myshifts", to: "shifts#my_shifts"
   get "/shifts_current", to: "shifts#shifts_current"
   post "/shifts_new", to: "shifts#create"
   post "/shifts_update", to: "shifts#update"

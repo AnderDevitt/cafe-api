@@ -1,5 +1,5 @@
 class ShiftsController < ApplicationController
-  # before_action :authenticate_employee, except: [:index, :show]
+  before_action :authenticate_employee, except: [:index, :show, :employee_shifts, :date_shifts]
   before_action :set_shift, only: [:show, :update, :destroy]
   before_action :check_ownership, only: [:update, :destroy]
 
@@ -8,16 +8,41 @@ class ShiftsController < ApplicationController
     # @shifts = Shift.all
     @shifts = []
     
-      # Shift.each do |shift|
-        # Shift.order("created_at").each do |shift|
-          Shift.where("clocked_out" === false).order("created_at").each do |shift|  
-        # if (shift.clocked_out === false)
-          @shifts << shift.transform_shift
-          # @shifts << shift
-        
+    if (params[:username])
+      Shift.find_by_employee(params[:username]).order("date").each do |shift|  
+        @shifts << shift.transform_shift
       end
+    else
+      Shift.order("date").each do |shift|  
+        @shifts << shift.transform_shift
+      end    
+    end
+
+    if @shifts.count == 0
+      render json: {error: "Shifts not found"}
+    else
+      render json: @shifts
+    end
+  end
+  
+  
+
+  def employee_shifts
+    @shifts = []
+    Shift.find_by_employee(params[:username]).order("date").each do |shift|  
+      @shifts << shift.transform_shift
+    end
     render json: @shifts
   end
+
+  def date_shifts
+    @shifts = []
+    Shift.find_by_date(params[:date]).order("date").each do |shift|  
+      @shifts << shift.transform_shift
+    end
+    render json: @shifts
+  end
+
 
   def shifts_current
     @shifts = []
@@ -43,7 +68,14 @@ class ShiftsController < ApplicationController
     end
   end
 
-  # GET /shifts/new
+  # def my_shifts
+  #   @shifts = []
+  #   current_employee.shifts.order("updated_at DESC").each do |shift|
+  #     @shifts << shift.transform_shift
+  #   end
+  # end
+
+  # POST /shifts/new
   def new
     @shift = Shift.new
   end
@@ -100,6 +132,6 @@ class ShiftsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def shift_params
-      params.permit(:date, :start, :finish, :password, :employee_id, :clocked_out)
+      params.permit(:date, :start, :finish, :password, :employee_id, :clocked_out, :username)
     end
 end

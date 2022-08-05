@@ -43,16 +43,34 @@ class EmployeesController < ApplicationController
         @employee.destroy
     end
 
+    # def login
+    #     pp("Employee Login request received!")
+    #     @employee = Employee.find_by_username(params[:username])
+    #     if @employee && @employee.authenticate(params[:password])
+    #         auth_token = Knock::AuthToken.new payload: {sub: @employee.id}
+    #         render json: {username: @employee.username, jwt: auth_token.token}, status: 200
+    #     else
+    #         render json: {Error: "Invalid username or password"}
+    #     end
+
+    # end
     def login
-        pp("Employee Login request received!")
         @employee = Employee.find_by_username(params[:username])
-        if @employee && @employee.authenticate(params[:password])
-            auth_token = Knock::AuthToken.new payload: {sub: @employee.id}
-            render json: {username: @employee.username, jwt: auth_token.token}, status: 200
-        else
-            render json: {Error: "Invalid username or password"}
+        pp("Username provided is: " + params[:username])
+
+        if @employee
+            pp(@employee)
         end
 
+        # if !@role.nil? && @role.authenticate(params[:password])
+        if !@employee.nil? && BCrypt::Password.new(@employee.password) == params[:password]
+            pp("Role found!")
+            auth_token = Knock::AuthToken.new(payload: {sub: @employee.id}).token 
+            pp("Knock made an auth token: " + auth_token)
+            render json: {username: @employee.username, jwt: auth_token}, status: 200
+        else
+            render json: {Error: "Invalid username or password with newer version"}
+        end
     end
     
 
