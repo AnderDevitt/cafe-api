@@ -8,7 +8,7 @@
 # Allow access to both the localhost:3000 port and the deployed Netlify site
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
-    origins 'https://staging-wonderful-meerkat-7d4755.netlify.app', 'http://localhost:3000'
+    origins 'https://wonderful-meerkat-7d4755.netlify.app'
 
     resource '*',
       headers: :any,
