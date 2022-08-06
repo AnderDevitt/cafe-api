@@ -1,5 +1,5 @@
 class EmployeesController < ApplicationController
-    before_action :set_user, only: [:show, :update, :destroy]
+    before_action :set_employee, only: [:show, :update, :destroy]
 
     # GET /employees
     def index
@@ -13,7 +13,7 @@ class EmployeesController < ApplicationController
         if @employee
             render json: @employee
         else
-            render json: {"Error": "Employee not found, wrong id"}, status: :not_found
+            render json: {"error": "Employee not found, wrong id"}, status: :not_found
         end
     end
 
@@ -27,11 +27,13 @@ class EmployeesController < ApplicationController
             # render json: {username: @employee.username, jwt: auth_token.token}, status: :created
 
             # Return the new user's username when admin creates a new employee
+            
             render json: {username: @employee.username}, status: :created
         else
             print @employee.errors.attribute_names
             # return an error message if the new user cannot be created in the database
-            render json: {error: @employee.errors}, status: :unprocessable_entity
+            print @employee.errors
+            render json: {error: @employee.errors}
         end
     end
 
@@ -56,7 +58,7 @@ class EmployeesController < ApplicationController
             auth_token = Knock::AuthToken.new payload: {sub: @employee.id}
             render json: {username: @employee.username, jwt: auth_token.token}, status: 200
         else
-            render json: {Error: "Invalid username or password"}
+            render json: {error: "Invalid username or password"}
         end
     end
     def sign_in
@@ -70,11 +72,11 @@ class EmployeesController < ApplicationController
         # if !@role.nil? && @role.authenticate(params[:password])
         if !@employee.nil? && BCrypt::Password.new(@employee.password) == params[:password]
             pp("Employee found!")
-            auth_token = Knock::AuthToken.new(payload: {sub: @employee.id}).token 
-            pp("Knock made an auth token: " + auth_token)
-            render json: {username: @employee.username, jwt: auth_token}, status: 200
+            # auth_token = Knock::AuthToken.new(payload: {sub: @employee.id}).token 
+            # pp("Knock made an auth token: " + auth_token)
+            render json: {username: @employee.username}, status: 200
         else
-            render json: {Error: "Invalid username or password"}
+            render json: {error: "Invalid username or password"}
         end
     end
 

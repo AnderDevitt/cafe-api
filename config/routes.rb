@@ -19,8 +19,7 @@ Rails.application.routes.draw do
   resources :employees
   
   # get "/shifts", to: "shifts#index"
-  # get "/shifts_current", to: "shifts#shifts_current"
-  
+  get "/shifts/employee/:username", to: "shifts#employee_shifts"
   post "/shifts_new", to: "shifts#create"
   post "/shifts_update", to: "shifts#update"
   resources :shifts
