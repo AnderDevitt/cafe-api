@@ -72,7 +72,10 @@ class EmployeesController < ApplicationController
         # if !@role.nil? && @role.authenticate(params[:password])
         if !@employee.nil? && BCrypt::Password.new(@employee.password) == params[:password]
             pp("Employee found!")
+            # Not sure whats going on here, https://betterprogramming.pub/knock-as-an-authentication-solution-for-rails-api-acfaef5b25
             auth_token = Knock::AuthToken.new(payload: {sub: @employee.id}).token 
+            # Knock::AuthToken.new(payload: {sub: @employee.id}) seems to not work and returns nil
+            # We then try and call .token which fails as auth_token is nil, and we get a type error
             pp("Knock made an auth token: " + auth_token)
             render json: {username: @employee.username, jwt: auth_token}, status: 200
         else

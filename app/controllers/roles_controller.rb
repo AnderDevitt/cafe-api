@@ -21,6 +21,7 @@ class RolesController < ApplicationController
         # if !@role.nil? && @role.authenticate(params[:password])
         if !@role.nil? && BCrypt::Password.new(@role.password) == params[:password]
             pp("Role found!")
+            # Not sure this is correct, https://betterprogramming.pub/knock-as-an-authentication-solution-for-rails-api-acfaef5b25
             auth_token = Knock::AuthToken.new(payload: {sub: @role.id}).token 
             pp("Knock made an auth token: " + auth_token)
             render json: {username: @role.username, jwt: auth_token}, status: 200
