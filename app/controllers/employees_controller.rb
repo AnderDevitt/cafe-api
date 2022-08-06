@@ -1,5 +1,5 @@
 class EmployeesController < ApplicationController
-    before_action :set_user, only: [:show, :update, :destroy]
+    before_action :set_employee, only: [:show, :update, :destroy]
 
     # GET /employees
     def index
@@ -72,9 +72,9 @@ class EmployeesController < ApplicationController
         # if !@role.nil? && @role.authenticate(params[:password])
         if !@employee.nil? && BCrypt::Password.new(@employee.password) == params[:password]
             pp("Employee found!")
-            auth_token = Knock::AuthToken.new(payload: {sub: @employee.id}).token 
-            pp("Knock made an auth token: " + auth_token)
-            render json: {username: @employee.username, jwt: auth_token}, status: 200
+            # auth_token = Knock::AuthToken.new(payload: {sub: @employee.id}).token 
+            # pp("Knock made an auth token: " + auth_token)
+            render json: {username: @employee.username}, status: 200
         else
             render json: {error: "Invalid username or password"}
         end
