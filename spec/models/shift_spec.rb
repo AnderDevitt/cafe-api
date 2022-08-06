@@ -6,7 +6,14 @@ RSpec.describe Shift, type: :model do
     described_class.new(
       date: "2022-07-27",
       start: "2000-01-01T06:30:00.000Z",
-      finish: "2000-01-01T12:30:00.000Z"
+      finish: "2000-01-01T12:30:00.000Z",
+      employee_id: Employee.create!(first_name: "firstname",
+        last_name: "lastname",
+        username: "username",
+        is_active: true,
+        is_admin: false,
+        password: "1234",
+        email: "email@email.com").id
     )
   }
   # test that the object takes valid attributes
