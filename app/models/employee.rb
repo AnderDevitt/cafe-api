@@ -16,6 +16,7 @@ class Employee < ApplicationRecord
             last_name: self.last_name,
             username: self.username,
             is_active: self.is_active,
+            is_admin: self.is_admin
         }
     end
 
