@@ -1,30 +1,32 @@
 class RolesController < ApplicationController
 
     def create
-        @role = Role.create(role_params)
+        @role = Role.new(role_params)
 
         if @role.errors.any?
             render json: @role.errors, status: :unprocessable_entity
         else
-            # auth_token = Knock::AuthToken.new payload: {sub: @role.id}
-            # render json: {username: @role.username, jwt: auth_token.token}, status: :created
             render json: {username: @role.username}, status: :created
         end
     end
 
     def sign_in
         @role = Role.find_by_username(params[:username])
-        # if @role.present? && @role.password === params[:password]
-        #     render json: {username: @role.username}, status: 200
-        if @role && @role.authenticate(params[:password])
-            # Not sure this is correct, https://betterprogramming.pub/knock-as-an-authentication-solution-for-rails-api-acfaef5b25
-            # auth_token = Knock::AuthToken.new payload: {sub: @role.id}
-            # render json: {username: @role.username, jwt: auth_token.token}, status: 200
-            render json: {Error: "Login successful", username: @role.username}
+        pp("Username provided is: " + params[:username])
+
+        if @role
+            pp(@role)
+        end
+
+        # if !@role.nil? && @role.authenticate(params[:password])
+        if !@role.nil? && BCrypt::Password.new(@role.password) == params[:password]
+            pp("Role found!")
+            auth_token = Knock::AuthToken.new(payload: {sub: @role.id}).token 
+            pp("Knock made an auth token: " + auth_token)
+            render json: {username: @role.username, jwt: auth_token}, status: 200
         else
             render json: {Error: "Invalid username or password"}
         end
-
     end
 
     private
