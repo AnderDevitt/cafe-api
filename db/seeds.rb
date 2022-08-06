@@ -16,15 +16,15 @@ password = BCrypt::Password.create('password')
 
 # Create sample employees for DB
 if Employee.count == 0
-    e1 = Employee.create("first_name"=>"admin", "last_name"=>"admin", "username"=>"admin", "is_active"=>"false", "email"=>"admin@email.com", "is_admin"=>"true", "password"=>"admin123")
-    e2 = Employee.create("first_name"=>"Andrew", "last_name"=>"Devitt", "username"=>"andy", "is_active"=>"true", "email"=>"admin@email.com", "is_admin"=>"false", "password"=>"1234")
-    e3 = Employee.create("first_name"=>"Raj", "last_name"=>"Ranj", "username"=>"raj", "is_active"=>"true", "email"=>"admin@email.com", "is_admin"=>"false", "password"=>"1234")
-    e4 = Employee.create("first_name"=>"Jane", "last_name"=>"Smith", "username"=>"jane", "is_active"=>"false", "email"=>"admin@email.com", "is_admin"=>"false", "password"=>"1234")
-    e5 = Employee.create("first_name"=>"Bob", "last_name"=>"Green", "username"=>"bob", "is_active"=>"false", "email"=>"admin@email.com", "is_admin"=>"false", "password"=>"1234")
+    e1 = Employee.create("first_name"=>"admin", "last_name"=>"admin", "username"=>"admin", "is_active"=>"false", "is_admin"=>"true", "password"=>"admin123")
+    e2 = Employee.create("first_name"=>"Andrew", "last_name"=>"Devitt", "username"=>"andy", "is_active"=>"true", "is_admin"=>"false", "password"=>"1234")
+    e3 = Employee.create("first_name"=>"Raj", "last_name"=>"Ranj", "username"=>"raj", "is_active"=>"true", "is_admin"=>"false", "password"=>"1234")
+    e4 = Employee.create("first_name"=>"Jane", "last_name"=>"Smith", "username"=>"jane", "is_active"=>"false", "is_admin"=>"false", "password"=>"1234")
+    e5 = Employee.create("first_name"=>"Bob", "last_name"=>"Green", "username"=>"bob", "is_active"=>"false", "is_admin"=>"false", "password"=>"1234")
 end
 
 # Create sample roles for DB
-if Role.count == 0
-    r1 = Role.create("username"=>"admin", "email"=>"admin@email.com", "is_admin"=>"true", "password"=>"admin123")
-    r2 = Role.create("username"=>"cafe", "email"=>"cafe@email.com", "is_admin"=>"false", "password"=>"cafe123")
-end
+# if Role.count == 0
+#     r1 = Role.create("username"=>"admin", "email"=>"admin@email.com", "is_admin"=>"true", "password"=>"admin123")
+#     r2 = Role.create("username"=>"cafe", "email"=>"cafe@email.com", "is_admin"=>"false", "password"=>"cafe123")
+# end
